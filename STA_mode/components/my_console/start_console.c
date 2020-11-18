@@ -74,15 +74,13 @@ static void enter_to_do(char *str, t_flag *f, t_pars_tree **commands) {
 }
 
 static void backspace_to_do(char *str, t_flag *f, int buf_size) {
-    uint8_t backspace[4] = {0x08, 27, '[', 'P'}; // true backspace
-
     if (f->position == f->count_str_size && f->position != 0) {
-        uart_write_bytes(UART_NUM, (char *)buttons.backspace, 3);
+        uart_write_bytes(UART_NUM, (char *)buttons.backspace, 4);
         f->count_str_size -= 1;
         f->position = f->count_str_size;
         str[f->count_str_size] = '\0'; //delete last symbol from str
     } else if (f->position != 0) {
-        uart_write_bytes(UART_NUM_1, (char *)backspace, 4);
+        uart_write_bytes(UART_NUM_1, (char *)buttons.backspace, 4);
         del_symbol_inside_str(str, f->position);
         f->count_str_size--;
         f->position--;
@@ -144,5 +142,6 @@ static void task_uart_event_handler(void **registered_commands) {
 }
 
 void uart_console_start(t_pars_tree **commands) {
+    default_commands(commands);
     xTaskCreate(task_uart_event_handler, "task_uart_event_handler", 14096, (void *)commands, 10, NULL);
 }

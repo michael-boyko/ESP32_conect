@@ -21,7 +21,7 @@ typedef struct s_flags {
 
 struct buttons {
     char enter[5];
-    uint8_t backspace[3];
+    uint8_t backspace[4];
     uint8_t left[3];
     uint8_t right[3];
 };
@@ -30,7 +30,7 @@ static uint8_t insert_one_space[3] = { 27, '[', '@',};
 
 static struct buttons buttons = {
         .enter = "\n\r>",
-        .backspace = {0x08, ' ', 0x08,},
+        .backspace = {0x08, 27, '[', 'P'},
         .left = {0x08, '[', 'D',},
         .right = {27, '[', 'C',},
 };
@@ -38,6 +38,6 @@ static struct buttons buttons = {
 void uart_console_start(t_pars_tree **commands);
 void error_output(char *argv);
 void uart_start();
-//void esc_commands();
+void default_commands(t_pars_tree **commands);
 
 #endif
