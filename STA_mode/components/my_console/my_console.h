@@ -19,24 +19,25 @@ typedef struct s_flags {
     int position;
 } t_flag;
 
-struct buttons  {
+struct buttons {
     char enter[5];
     uint8_t backspace[3];
     uint8_t left[3];
     uint8_t right[3];
 };
 
+static uint8_t insert_one_space[3] = { 27, '[', '@',};
+
 static struct buttons buttons = {
-        "\n\r>", // Enter
-        {0x08, ' ', 0x08,},  // Backspace
-        {0x08, '[', 'D',},  // Left button
-        {27, '[', 'C',},  // Right button
+        .enter = "\n\r>",
+        .backspace = {0x08, ' ', 0x08,},
+        .left = {0x08, '[', 'D',},
+        .right = {27, '[', 'C',},
 };
 
-static uint8_t insert_one_space[3] = { 27, '[', '@',}; // insert one space
-
 void uart_console_start(t_pars_tree **commands);
-//void task_uart_event_handler(t_pars_tree ***registered_commands);
 void error_output(char *argv);
+void uart_start();
+//void esc_commands();
 
 #endif

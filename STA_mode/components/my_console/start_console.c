@@ -116,16 +116,16 @@ static void uart_data_handler(char *str, t_flag *f, t_pars_tree **commands) {
     buf = NULL;
 }
 
-
-static void task_uart_event_handler(t_pars_tree ***registered_commands) {
+static void task_uart_event_handler(void **registered_commands) {
     uart_event_t event;
     char str[1024];
     t_flag f = {0, 0};
-    t_pars_tree **commands = (t_pars_tree **) *registered_commands;
+    t_pars_tree **commands =  (t_pars_tree **) (registered_commands);
 
     memset(str, 0, 1024);
     while (true) {
         if (xQueueReceive(uart0_queue, (void * )&event, (portTickType)portMAX_DELAY)) {
+
             if (event.type == UART_DATA) {
                 uart_data_handler(str, &f, commands);
             }
@@ -144,5 +144,5 @@ static void task_uart_event_handler(t_pars_tree ***registered_commands) {
 }
 
 void uart_console_start(t_pars_tree **commands) {
-    xTaskCreate(task_uart_event_handler, "task_uart_event_handler", 4096, NULL, 10, &commands);
+    xTaskCreate(task_uart_event_handler, "task_uart_event_handler", 14096, (void *)commands, 10, NULL);
 }
