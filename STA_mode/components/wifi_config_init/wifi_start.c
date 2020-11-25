@@ -11,12 +11,14 @@ static void event_handler(void *arg, esp_event_base_t event_base, int32_t event_
                 break;
             case WIFI_EVENT_SCAN_DONE:
                 printf("-------WIFI_EVENT_SCAN_DONE-------\n");
+
                 break;
             case WIFI_EVENT_STA_STOP:
                 printf("-------WIFI_EVENT_STA_STOP-------\n");
                 break;
             case WIFI_EVENT_STA_CONNECTED:
                 printf("-------connected-------\n");
+                scan();
                 break;
             case WIFI_EVENT_STA_DISCONNECTED:
                 printf("-------WIFI_EVENT_STA_DISCONNECTED-------\n");
